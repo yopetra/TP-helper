@@ -14,6 +14,9 @@ import com.example.android.tp_helper.data.AppDatabase;
 import com.example.android.tp_helper.data.ArticleEntry;
 import com.example.android.tp_helper.utils.AppExecutors;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AddEditActivity extends AppCompatActivity {
 
     TextView actionBarNameTextView;
@@ -27,6 +30,8 @@ public class AddEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit);
+
+        mDb = AppDatabase.getInstance(getApplicationContext());
 
         String action =  getIntent().getStringExtra(getString(R.string.add_edit_action));
         actionBarNameTextView = findViewById(R.id.tv_action_bar_name);
@@ -44,25 +49,31 @@ public class AddEditActivity extends AppCompatActivity {
                 String nameOfArticle = nameOfArticleEditText.getText().toString();
                 String contentOfArticle = contentOfArticleEditText.getText().toString();
 
-                ArticleEntry articleEntry = new ArticleEntry(nameOfArticle, contentOfArticle);
-
-                new SaveArticleTask().execute(articleEntry);
+                new SaveArticleTask().execute(nameOfArticle, contentOfArticle);
             }
         });
     }
 
-    private class SaveArticleTask extends AsyncTask<ArticleEntry, Void, Void>{
+    private class SaveArticleTask extends AsyncTask<String, Void, ArticleEntry>{
         @Override
-        protected Void doInBackground(ArticleEntry... articleEntries) {
+        protected ArticleEntry doInBackground(String... articleData) {
 
-            final ArticleEntry articleEntry = articleEntries[0];
+            String name = articleData[0];
+            String content = articleData[1];
+
+            final ArticleEntry articleEntry = new ArticleEntry(name, content);
+
+            return articleEntry;
+        }
+
+        @Override
+        protected void onPostExecute(final ArticleEntry articleEntry) {
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
                 public void run() {
                     mDb.articleDao().insertArticle(articleEntry);
                 }
             });
-            return null;
         }
     }
 }

@@ -12,14 +12,14 @@ public class ArticleEntry {
     private String name;
     private String content;
 
-    public ArticleEntry(int id, String name, String content){
-        this.id = id;
+    @Ignore
+    public ArticleEntry(String name, String content){
         this.name = name;
         this.content = content;
     }
 
-    @Ignore
-    public ArticleEntry(String name, String content){
+    public ArticleEntry(int id, String name, String content){
+        this.id = id;
         this.name = name;
         this.content = content;
     }
