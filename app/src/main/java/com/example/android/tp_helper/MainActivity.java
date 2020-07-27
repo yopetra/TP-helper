@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, AddEditActivity.class);
+                intent.putExtra(getString(R.string.add_edit_action), "Add a new article");
                 startActivity(intent);
             }
         });
