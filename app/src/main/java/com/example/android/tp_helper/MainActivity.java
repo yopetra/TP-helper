@@ -2,6 +2,7 @@ package com.example.android.tp_helper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -21,7 +22,8 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), "Button clicked", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, AddEditActivity.class);
+                startActivity(intent);
             }
         });
     }
