@@ -1,10 +1,20 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="item_of_card">
+
+        <item name="android:layout_margin">@dimen/small_margin</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:foreground">?selectableItemBackground</item>
+        <item name="android:elevation" tools:targetApi="lollipop">@dimen/elevation_of_card</item>
     </style>
 
 </resources>
