@@ -51,17 +51,22 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
     }
 
     @Override
-    public void onClick(JSONObject articleItem) {
-        int name = -1;
-        try {
-            name = articleItem.getInt("id");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        Toast.makeText(this, "CLicked item" + name, Toast.LENGTH_SHORT).show();
+    public void onClick(int finalId) {
+//        int name = -1;
+//        try {
+//            name = articleItem.getInt("id");
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+        Toast.makeText(this, "CLicked item" + finalId, Toast.LENGTH_SHORT).show();
     }
 
-//    @Override
+    @Override
+    public void onLongClick(int finalId) {
+        Toast.makeText(this, "CLicked LONG item" + finalId, Toast.LENGTH_SHORT).show();
+    }
+
+    //    @Override
 //    public void onLongClick(JSONObject articleItem) {
 //        Toast.makeText(this, "On long click", Toast.LENGTH_SHORT).show();
 //    }

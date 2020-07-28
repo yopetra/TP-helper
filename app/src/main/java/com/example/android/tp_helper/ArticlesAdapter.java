@@ -18,11 +18,14 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
 
     private JSONArray mArticlesData = new JSONArray();
 
+
+
     private final ArticleAdapterOnClickHandler mClickHandler;
 //    private final ArticleAdapterOnLongClickHandler mLongClickHandler;
 
     public interface ArticleAdapterOnClickHandler{
-        void onClick(JSONObject articleItem);
+        void onClick(int finalId);
+        void onLongClick(int finalId);
     }
 
 //    public interface ArticleAdapterOnLongClickHandler{
@@ -52,25 +55,12 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ArticleViewHolder articleViewHolder, int position) {
-        articleViewHolder.view.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                System.out.println("OnClick ---");
-            }
-        });
-
-        articleViewHolder.view.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                System.out.println("OnLongClick ---");
-                return true;
-            }
-        });
+    public void onBindViewHolder(@NonNull ArticleViewHolder articleViewHolder, final int position) {
 
         String currentArticleName = null;
+        JSONObject currentArticle = null;
         try {
-            JSONObject currentArticle = (JSONObject) mArticlesData.get(position);
+            currentArticle = (JSONObject) mArticlesData.get(position);
             currentArticleName = currentArticle.getString("name");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -78,6 +68,31 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
 
         articleViewHolder.articleItemTextView.setText(currentArticleName);
 
+        int id = -1;
+        try {
+            id = currentArticle.getInt("id");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        final int finalId = id;
+        articleViewHolder.view.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                System.out.println("OnClick ---" + finalId);
+
+                mClickHandler.onClick(finalId);
+            }
+        });
+
+        articleViewHolder.view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                System.out.println("OnLongClick ---");
+                mClickHandler.onLongClick(finalId);
+                return true;
+            }
+        });
     }
 
     @Override
