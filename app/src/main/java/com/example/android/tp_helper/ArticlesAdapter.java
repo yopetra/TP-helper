@@ -18,27 +18,16 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
 
     private JSONArray mArticlesData = new JSONArray();
 
-
-
     private final ArticleAdapterOnClickHandler mClickHandler;
-//    private final ArticleAdapterOnLongClickHandler mLongClickHandler;
 
     public interface ArticleAdapterOnClickHandler{
         void onClick(int finalId);
         void onLongClick(int finalId);
     }
 
-//    public interface ArticleAdapterOnLongClickHandler{
-//        void onLongClick(JSONObject articleItem);
-//    }
-
     public ArticlesAdapter(ArticleAdapterOnClickHandler clickHandler){
         mClickHandler = clickHandler;
     }
-
-//    public ArticlesAdapter(ArticleAdapterOnLongClickHandler longClickHandler){
-//        mLongClickHandler = longClickHandler;
-//    }
 
     @NonNull
     @Override
@@ -103,7 +92,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
     }
 
     public class ArticleViewHolder extends RecyclerView.ViewHolder{
-//    public class ArticleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
         public View view;
         TextView articleItemTextView;
 
@@ -112,43 +101,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
             this.view = view;
             articleItemTextView = itemView.findViewById(R.id.tv_article_block_item);
         }
-
-
-//        public ArticleViewHolder(View itemView) {
-//            super(itemView);
-//            articleItemTextView = itemView.findViewById(R.id.tv_article_block_item);
-//
-//            itemView.setOnClickListener(this);
-//        }
-
-//        @Override
-//        public void onClick(View view) {
-//            int adapterPosition = getAdapterPosition();
-//            JSONObject articleItem = null;
-//            try {
-//                articleItem = (JSONObject) mArticlesData.get(adapterPosition);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//            mClickHandler.onClick(articleItem);
-//        }
-
-//        @Override
-//        public boolean onLongClick(View view) {
-//            int adapterPosition = getAdapterPosition();
-//            JSONObject articleItem = null;
-//            try {
-//                articleItem = (JSONObject) mArticlesData.get(adapterPosition);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//
-//            mLongClickHandler.onLongClick(articleItem);
-//            return true;
-//        }
     }
-
-
 
     public void setArticlesData(JSONArray articlesData){
         int arraySize = articlesData.length();
