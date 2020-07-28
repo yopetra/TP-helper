@@ -52,8 +52,19 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
 
     @Override
     public void onClick(JSONObject articleItem) {
-        Toast.makeText(this, "CLicked item", Toast.LENGTH_SHORT).show();
+        int name = -1;
+        try {
+            name = articleItem.getInt("id");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Toast.makeText(this, "CLicked item" + name, Toast.LENGTH_SHORT).show();
     }
+
+//    @Override
+//    public void onLongClick(JSONObject articleItem) {
+//        Toast.makeText(this, "On long click", Toast.LENGTH_SHORT).show();
+//    }
 
     @Override
     protected void onResume() {
@@ -80,11 +91,13 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
                 int sizeOfList = articleEntries.size();
 
                 for(int i = 0; i < sizeOfList; i++){
+                    int id = articleEntries.get(i).getId();
                     String name = articleEntries.get(i).getName();
                     String content = articleEntries.get(i).getContent();
                     JSONObject jsonObject= null;
                     try {
                         jsonObject = new JSONObject()
+                                .put("id", id)
                                 .put("name", name)
                                 .put("content", content);
                     } catch (JSONException e) {
