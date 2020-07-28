@@ -2,6 +2,7 @@ package com.example.android.tp_helper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -14,15 +15,16 @@ import com.example.android.tp_helper.data.AppDatabase;
 import com.example.android.tp_helper.data.ArticleEntry;
 import com.example.android.tp_helper.utils.AppExecutors;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class AddEditActivity extends AppCompatActivity {
 
     TextView actionBarNameTextView;
     Button saveButton;
     EditText nameOfArticleEditText;
     EditText contentOfArticleEditText;
+    int articleId = -1;
+//    int savingType = -1;
+    final String SAVE_NEW = "1";
+    final String SAVE_EDITED = "2";
 
     AppDatabase mDb;
 
@@ -33,7 +35,11 @@ public class AddEditActivity extends AppCompatActivity {
 
         mDb = AppDatabase.getInstance(getApplicationContext());
 
-        String action =  getIntent().getStringExtra(getString(R.string.add_edit_action));
+        Intent intent = getIntent();
+        String action =  intent.getStringExtra(getString(R.string.add_edit_action));
+
+        final String savingType = identifyTypeOf(action);
+        articleId = intent.getExtras().getInt(getString(R.string.article_id));
         actionBarNameTextView = findViewById(R.id.tv_action_bar_name);
         actionBarNameTextView.setText(action);
 
@@ -44,24 +50,34 @@ public class AddEditActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Article saved", Toast.LENGTH_SHORT).show();
-
-                String nameOfArticle = nameOfArticleEditText.getText().toString();
-                String contentOfArticle = contentOfArticleEditText.getText().toString();
-
-                new SaveArticleTask().execute(nameOfArticle, contentOfArticle);
+                saveArticle(savingType);
             }
         });
+
+        if(action.equals(getString(R.string.edit_article))){
+//            Toast.makeText(this, "Eiting article", Toast.LENGTH_SHORT).show();
+            new ReadArticleTask().execute(articleId);
+        }
+    }
+
+    private String identifyTypeOf(String action) {
+        if(action.equals(getString(R.string.add_new_article))){return SAVE_NEW;}
+        if(action.equals(getString(R.string.edit_article))){return SAVE_EDITED;}
+
+        return null;
     }
 
     private class SaveArticleTask extends AsyncTask<String, Void, ArticleEntry>{
+
+        String tSavingType = null;
         @Override
         protected ArticleEntry doInBackground(String... articleData) {
 
             String name = articleData[0];
             String content = articleData[1];
+            tSavingType = articleData[2];
 
-            final ArticleEntry articleEntry = new ArticleEntry(name, content);
+            final ArticleEntry articleEntry = new ArticleEntry(articleId, name, content);
 
             return articleEntry;
         }
@@ -71,9 +87,42 @@ public class AddEditActivity extends AppCompatActivity {
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
                 public void run() {
-                    mDb.articleDao().insertArticle(articleEntry);
+                    if(tSavingType == SAVE_NEW){
+                        mDb.articleDao().insertArticle(articleEntry);}
+                    if(tSavingType == SAVE_EDITED){
+                        mDb.articleDao().updateArticle(articleEntry);}
                 }
             });
         }
+    }
+
+    private class ReadArticleTask extends AsyncTask<Integer, Void, ArticleEntry>{
+        @Override
+        protected ArticleEntry doInBackground(Integer... integers) {
+
+            int articleId = integers[0];
+
+            ArticleEntry articleEntry = mDb.articleDao().readArticleById(articleId);
+
+            return articleEntry;
+        }
+
+        @Override
+        protected void onPostExecute(ArticleEntry articleEntry) {
+            String name = articleEntry.getName();
+            String content = articleEntry.getContent();
+
+            nameOfArticleEditText.setText(name);
+            contentOfArticleEditText.setText(content);
+        }
+    }
+
+    private void saveArticle(String savingType){
+        String nameOfArticle = nameOfArticleEditText.getText().toString();
+        String contentOfArticle = contentOfArticleEditText.getText().toString();
+
+        new SaveArticleTask().execute(nameOfArticle, contentOfArticle, savingType);
+
+        Toast.makeText(getApplicationContext(), "Article saved", Toast.LENGTH_SHORT).show();
     }
 }

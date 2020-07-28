@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, AddEditActivity.class);
-                intent.putExtra(getString(R.string.add_edit_action), "Add a new article");
+                intent.putExtra(getString(R.string.add_edit_action), getString(R.string.add_new_article));
                 startActivity(intent);
             }
         });
@@ -57,7 +57,10 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
 
     @Override
     public void onLongClick(int finalId) {
-        Toast.makeText(this, "CLicked LONG item" + finalId, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(MainActivity.this, AddEditActivity.class);
+        intent.putExtra(getString(R.string.add_edit_action), getString(R.string.edit_article));
+        intent.putExtra(getString(R.string.article_id), finalId);
+        startActivity(intent);
     }
 
     @Override

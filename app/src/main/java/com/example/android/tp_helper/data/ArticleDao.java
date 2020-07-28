@@ -15,6 +15,9 @@ public interface ArticleDao {
     @Query("SELECT * FROM article")
     List<ArticleEntry> loadAllArticles();
 
+    @Query("SELECT * FROM article WHERE id =:id")
+    ArticleEntry readArticleById(int id);
+
     @Insert
     void insertArticle(ArticleEntry articleEntry);
 

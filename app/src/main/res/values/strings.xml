@@ -2,4 +2,7 @@
     <string name="app_name">TP-helper</string>
     <string name="name">Name</string>
     <string name="add_edit_action">add_edit_action</string>
+    <string name="add_new_article">Add a new article</string>
+    <string name="edit_article">Edit article</string>
+    <string name="article_id">article_id</string>
 </resources>
