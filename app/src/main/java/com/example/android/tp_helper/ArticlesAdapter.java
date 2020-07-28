@@ -53,6 +53,21 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
 
     @Override
     public void onBindViewHolder(@NonNull ArticleViewHolder articleViewHolder, int position) {
+        articleViewHolder.view.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                System.out.println("OnClick ---");
+            }
+        });
+
+        articleViewHolder.view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                System.out.println("OnLongClick ---");
+                return true;
+            }
+        });
+
         String currentArticleName = null;
         try {
             JSONObject currentArticle = (JSONObject) mArticlesData.get(position);
@@ -62,6 +77,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
         }
 
         articleViewHolder.articleItemTextView.setText(currentArticleName);
+
     }
 
     @Override
@@ -71,29 +87,36 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
         return mArticlesData.length();
     }
 
-    public class ArticleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-
-//        ImageView articleItemImageView;1
+    public class ArticleViewHolder extends RecyclerView.ViewHolder{
+//    public class ArticleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        public View view;
         TextView articleItemTextView;
 
-        public ArticleViewHolder(View itemView) {
-            super(itemView);
+        public ArticleViewHolder(View view){
+            super(view);
+            this.view = view;
             articleItemTextView = itemView.findViewById(R.id.tv_article_block_item);
-
-            itemView.setOnClickListener(this);
         }
 
-        @Override
-        public void onClick(View view) {
-            int adapterPosition = getAdapterPosition();
-            JSONObject articleItem = null;
-            try {
-                articleItem = (JSONObject) mArticlesData.get(adapterPosition);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            mClickHandler.onClick(articleItem);
-        }
+
+//        public ArticleViewHolder(View itemView) {
+//            super(itemView);
+//            articleItemTextView = itemView.findViewById(R.id.tv_article_block_item);
+//
+//            itemView.setOnClickListener(this);
+//        }
+
+//        @Override
+//        public void onClick(View view) {
+//            int adapterPosition = getAdapterPosition();
+//            JSONObject articleItem = null;
+//            try {
+//                articleItem = (JSONObject) mArticlesData.get(adapterPosition);
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            mClickHandler.onClick(articleItem);
+//        }
 
 //        @Override
 //        public boolean onLongClick(View view) {
