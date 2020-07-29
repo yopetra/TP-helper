@@ -1,6 +1,7 @@
 package com.example.android.tp_helper;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +11,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.android.tp_helper.data.AppDatabase;
+import com.example.android.tp_helper.data.ArticleEntry;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ArticleViewHolder> {
 
     private JSONArray mArticlesData = new JSONArray();
+    private AppDatabase mDb;
 
     private final ArticleAdapterOnClickHandler mClickHandler;
 
@@ -25,8 +34,9 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
         void onLongClick(int finalId);
     }
 
-    public ArticlesAdapter(ArticleAdapterOnClickHandler clickHandler){
+    public ArticlesAdapter(ArticleAdapterOnClickHandler clickHandler, Context context){
         mClickHandler = clickHandler;
+        mDb = AppDatabase.getInstance(context);
     }
 
     @NonNull
@@ -121,5 +131,70 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
         while(mArticlesData.length() > 0){
             mArticlesData.remove(0);
         }
+    }
+
+    private class RemoveArticleTask extends AsyncTask<Integer, Void, Void> {
+        @Override
+        protected Void doInBackground(Integer... integers) {
+            int position = integers[0];
+
+            ArticleEntry articleEntry = mDb.articleDao().readArticleById(position);
+            mDb.articleDao().deleteArticle(articleEntry);
+            return null;
+        }
+    }
+
+    private class FetchAllArticlesTask extends AsyncTask<Void, Void, List<ArticleEntry>> {
+        @Override
+        protected List<ArticleEntry> doInBackground(Void... voids) {
+//            mDb = AppDatabase.getInstance(getApplicationContext());
+            final JSONArray[] articleJsonData = null;
+            final List<ArticleEntry> articleEntries = mDb.articleDao().loadAllArticles();
+
+            return articleEntries;
+        }
+
+        @Override
+        protected void onPostExecute(List<ArticleEntry> articleEntries) {
+            super.onPostExecute(articleEntries);
+        }
+    }
+
+    public void removeItem(int position) {
+//        imageModelArrayList.remove(position);
+        new RemoveArticleTask().execute(position);
+        notifyItemRemoved(position);
+
+        // Fetch all articles to get its size in the list
+        FetchAllArticlesTask fetchAllArticlesTask = new FetchAllArticlesTask();
+        fetchAllArticlesTask.execute();
+
+        List<ArticleEntry> list = null;
+        try {
+            list = fetchAllArticlesTask.get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        notifyItemRangeChanged(position, list.size());
+        notifyDataSetChanged();
+    }
+
+    private class AddArticleTask extends AsyncTask<ArticleEntry, Void, Void>{
+        @Override
+        protected Void doInBackground(ArticleEntry... articleEntries) {
+            ArticleEntry articleEntry = articleEntries[0];
+
+            mDb.articleDao().insertArticle(articleEntry);
+            return null;
+        }
+    }
+
+    public void restoreItem(ArticleEntry articleEntry, int position) {
+        new AddArticleTask().execute(articleEntry);
+//        imageModelArrayList.add(position, model);
+        // notify item added by position
+        notifyItemInserted(position);
     }
 }
