@@ -72,6 +72,9 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
     @Override
     public void onClick(int finalId) {
         Toast.makeText(this, "CLicked item" + finalId, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(MainActivity.this, ScrollingTextActivity.class);
+        intent.putExtra(getString(R.string.article_id), finalId);
+        startActivity(intent);
     }
 
     @Override

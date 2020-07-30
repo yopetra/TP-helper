@@ -59,6 +59,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
         try {
             currentArticle = (JSONObject) mArticlesData.get(position);
             currentArticleName = currentArticle.getString("name");
+            System.out.println("id = " + currentArticle.getDouble("id"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

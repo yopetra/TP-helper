@@ -3,4 +3,6 @@
 
     <dimen name="small_margin">3dp</dimen>
     <dimen name="elevation_of_card">2dp</dimen>
+    <dimen name="text_twenty">20sp</dimen>
+    <dimen name="bt_scroll_activity">50dp</dimen>
 </resources>
