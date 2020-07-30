@@ -178,44 +178,13 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
                         e.printStackTrace();
                     }
 
-//                    int articleIdForDelete = deleteArticle.getId();
-//                    final ArticleEntry deletedArticle = imageModelArrayList.get(position);
-//                    final int deletedPosition = position;
                     final int deletedPosition = idInDb;
                     mAdapter.removeItem(idInDb);
-                    // showing snack bar with Undo option
-                    Snackbar snackbar = Snackbar.make(getWindow().getDecorView().getRootView(), " removed from Recyclerview!", Snackbar.LENGTH_LONG);
-                    final ArticleEntry finalDeleteArticle = deleteArticle;
-                    snackbar.setAction("UNDO", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            // undo is selected, restore the deleted item
-                            mAdapter.restoreItem(finalDeleteArticle, deletedPosition);
-                        }
-                    });
-//                    snackbar.setActionTextColor(Color.YELLOW);
-                    snackbar.show();
 
                     mAdapter.clearData();
-                    new FetchAllArticlesTask().execute();
+//                    new FetchAllArticlesTask().execute();
+                    loadArticlesData();
                 }
-//                else {
-//                    final Model deletedModel = imageModelArrayList.get(position);
-//                    final int deletedPosition = position;
-//                    adapter.removeItem(position);
-//                    // showing snack bar with Undo option
-//                    Snackbar snackbar = Snackbar.make(getWindow().getDecorView().getRootView(), " removed from Recyclerview!", Snackbar.LENGTH_LONG);
-//                    snackbar.setAction("UNDO", new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View view) {
-//
-//                            // undo is selected, restore the deleted item
-//                            adapter.restoreItem(deletedModel, deletedPosition);
-//                        }
-//                    });
-//                    snackbar.setActionTextColor(Color.YELLOW);
-//                    snackbar.show();
-//                }
             }
 
             @Override
