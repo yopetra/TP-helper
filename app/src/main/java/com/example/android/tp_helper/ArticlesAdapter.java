@@ -59,7 +59,6 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
         try {
             currentArticle = (JSONObject) mArticlesData.get(position);
             currentArticleName = currentArticle.getString("name");
-            System.out.println("id = " + currentArticle.getDouble("id"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -77,8 +76,6 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
         articleViewHolder.view.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                System.out.println("OnClick ---" + finalId);
-
                 mClickHandler.onClick(finalId);
             }
         });
@@ -86,7 +83,6 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
         articleViewHolder.view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                System.out.println("OnLongClick ---");
                 mClickHandler.onLongClick(finalId);
                 return true;
             }

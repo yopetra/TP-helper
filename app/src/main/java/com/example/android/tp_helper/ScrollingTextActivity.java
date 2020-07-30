@@ -93,9 +93,7 @@ public class ScrollingTextActivity extends AppCompatActivity {
     private class ReadArticleTask extends AsyncTask<Integer, Void, ArticleEntry> {
         @Override
         protected ArticleEntry doInBackground(Integer... integers) {
-
             int articleId = integers[0];
-
             ArticleEntry articleEntry = mDb.articleDao().readArticleById(articleId);
 
             return articleEntry;

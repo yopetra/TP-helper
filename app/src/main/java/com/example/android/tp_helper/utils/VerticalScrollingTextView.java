@@ -35,10 +35,6 @@ public class VerticalScrollingTextView extends TextView {
         scrollerInstance(context);
     }
 
-    public void foo(){
-        scroller.setFinalX(10);
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public VerticalScrollingTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr,
                                      int defStyleRes) {
@@ -82,7 +78,6 @@ public class VerticalScrollingTextView extends TextView {
         int visibleHeight = viewHeight - getPaddingBottom() - getPaddingTop();
         int lineHeight = getLineHeight();
         int offset = -1 * visibleHeight;
-        System.out.println("offset = " + offset);
         int distance = visibleHeight + getLineCount() * lineHeight;
         int duration = (int) (distance * speed);
         scroller.startScroll(0, offset, 0, distance, duration);
@@ -92,8 +87,6 @@ public class VerticalScrollingTextView extends TextView {
         int viewHeight = getHeight();
         int visibleHeight = viewHeight - getPaddingBottom() - getPaddingTop();
         int lineHeight = getLineHeight();
-//        int offset = -1 * visibleHeight;
-        System.out.println("offset = " + offset);
         int distance = visibleHeight + getLineCount() * lineHeight;
         int duration = (int) (distance * speed);
         scroller.startScroll(0, offset, 0, distance, duration);
