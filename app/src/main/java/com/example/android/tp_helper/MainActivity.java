@@ -174,31 +174,29 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
 
+                int idOfDb = idsOfArticles.get(position);
+                ReadArticleTask readArticleTask = new ReadArticleTask();
+                readArticleTask.execute(idOfDb);
+
+                String articleName = null;
+                try {
+                    articleName = readArticleTask.get().getName();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
                 if (direction == ItemTouchHelper.LEFT){
-
-                    showAlertDialog(position);
-
-                    //                        int idInDb = idsOfArticles.get(position);
-//
-//                        // Seek article for delete and save it in the variable
-//                        ReadArticleTask readArticleTask = new ReadArticleTask();
-//                        readArticleTask.execute(idInDb);
-//
-//                        mAdapter.removeItem(idInDb);
-//                        mAdapter.clearData();
-//                        loadArticlesData();
-//
-//                        Toast.makeText(getMainContext(), "Article deleted", Toast.LENGTH_SHORT).show();
-
-
+                    showAlertDialog(position, articleName);
                 }
             }
 
-            private void showAlertDialog(final int position) {
+            private void showAlertDialog(final int position, String articleName) {
 
                 final int positionInAlert = position;
 
-                alertBuilder.setMessage("message text")
+                alertBuilder.setMessage("Do you want delete " + articleName + " article?")
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
@@ -228,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
                         });
 
                 AlertDialog alert = alertBuilder.create();
-                alert.setTitle("Title of alert");
+                alert.setTitle("Deleting an article");
                 alert.show();
 
             }
