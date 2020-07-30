@@ -156,7 +156,9 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
         }
     }
 
-
+    private Context getMainContext(){
+        return this;
+    }
 
     private void enableSwipe(){
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT ) { //| ItemTouchHelper.RIGHT
@@ -174,53 +176,61 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
 
                 if (direction == ItemTouchHelper.LEFT){
 
-                    showAlertDialog();
+                    showAlertDialog(position);
 
-                    int idInDb = idsOfArticles.get(position);
+                    //                        int idInDb = idsOfArticles.get(position);
+//
+//                        // Seek article for delete and save it in the variable
+//                        ReadArticleTask readArticleTask = new ReadArticleTask();
+//                        readArticleTask.execute(idInDb);
+//
+//                        mAdapter.removeItem(idInDb);
+//                        mAdapter.clearData();
+//                        loadArticlesData();
+//
+//                        Toast.makeText(getMainContext(), "Article deleted", Toast.LENGTH_SHORT).show();
 
-                    // Seek article for delete and save it in the variable
-                    ReadArticleTask readArticleTask = new ReadArticleTask();
-                    readArticleTask.execute(idInDb);
-//                    ArticleEntry deleteArticle = null;
 
-//                    try {
-//                        deleteArticle = readArticleTask.get();
-//                    } catch (ExecutionException e) {
-//                        e.printStackTrace();
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-
-//                    final int deletedPosition = idInDb;
-
-                    mAdapter.removeItem(idInDb);
-                    mAdapter.clearData();
-//                    new FetchAllArticlesTask().execute();
-                    loadArticlesData();
                 }
             }
 
-            private void showAlertDialog() {
+            private void showAlertDialog(final int position) {
+
+                final int positionInAlert = position;
+
                 alertBuilder.setMessage("message text")
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                finish();
-                                System.out.println("YES ---");
+                                int idInDb = idsOfArticles.get(positionInAlert);
+
+                                // Seek article for delete and save it in the variable
+                                ReadArticleTask readArticleTask = new ReadArticleTask();
+                                readArticleTask.execute(idInDb);
+
+                                mAdapter.removeItem(idInDb);
+                                mAdapter.clearData();
+                                loadArticlesData();
+
+                                Toast.makeText(getMainContext(), "Article deleted", Toast.LENGTH_SHORT).show();
+//                                finish();
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                Toast.makeText(getMainContext(), "Deleting have canceled", Toast.LENGTH_SHORT).show();
+                                mAdapter.clearData();
+                                loadArticlesData();
                                 dialogInterface.cancel();
-                                System.out.println("NO ---");
                             }
                         });
 
                 AlertDialog alert = alertBuilder.create();
                 alert.setTitle("Title of alert");
                 alert.show();
+
             }
 
             @Override
