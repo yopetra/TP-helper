@@ -1,12 +1,5 @@
 package com.example.android.tp_helper;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,10 +14,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.android.tp_helper.data.AppDatabase;
 import com.example.android.tp_helper.data.ArticleEntry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -96,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
         @Override
         protected List<ArticleEntry> doInBackground(Void... voids) {
             mDb = AppDatabase.getInstance(getApplicationContext());
-            final JSONArray[] articleJsonData = null;
+//            final JSONArray[] articleJsonData = null;
             final List<ArticleEntry> articleEntries = mDb.articleDao().loadAllArticles();
 
             // Fill ids if articles to list
@@ -161,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
     }
 
     private void enableSwipe(){
-        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT ) { //| ItemTouchHelper.RIGHT
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT ) {
 
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -196,9 +194,9 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
 
                 final int positionInAlert = position;
 
-                alertBuilder.setMessage("Do you want delete " + articleName + " article?")
+                alertBuilder.setMessage(getString(R.string.do_you_want_to_delete) + articleName + getString(R.string.article))
                         .setCancelable(false)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 int idInDb = idsOfArticles.get(positionInAlert);
@@ -211,14 +209,13 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
                                 mAdapter.clearData();
                                 loadArticlesData();
 
-                                Toast.makeText(getMainContext(), "Article deleted", Toast.LENGTH_SHORT).show();
-//                                finish();
+                                Toast.makeText(getMainContext(), R.string.article_deleted, Toast.LENGTH_SHORT).show();
                             }
                         })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                Toast.makeText(getMainContext(), "Deleting have canceled", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getMainContext(), R.string.deleting_have_canceled, Toast.LENGTH_SHORT).show();
                                 mAdapter.clearData();
                                 loadArticlesData();
                                 dialogInterface.cancel();
@@ -226,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
                         });
 
                 AlertDialog alert = alertBuilder.create();
-                alert.setTitle("Deleting an article");
+                alert.setTitle(getString(R.string.deleting_an_article));
                 alert.show();
 
             }
@@ -248,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
                         icon = BitmapFactory.decodeResource(getResources(), R.drawable.delete);
                         RectF icon_dest = new RectF((float) itemView.getLeft() + width ,(float) itemView.getTop() + width,(float) itemView.getLeft()+ 2*width,(float)itemView.getBottom() - width);
                         c.drawBitmap(icon,null,icon_dest,p);
-                    } else {
+                    }else {
                         p.setColor(Color.parseColor("#D32F2F"));
                         RectF background = new RectF((float) itemView.getRight() + dX, (float) itemView.getTop(),(float) itemView.getRight(), (float) itemView.getBottom());
                         c.drawRect(background,p);

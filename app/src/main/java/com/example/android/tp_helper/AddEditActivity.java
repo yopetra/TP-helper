@@ -22,7 +22,6 @@ public class AddEditActivity extends AppCompatActivity {
     EditText nameOfArticleEditText;
     EditText contentOfArticleEditText;
     int articleId = -1;
-//    int savingType = -1;
     final String SAVE_NEW = "1";
     final String SAVE_EDITED = "2";
 
@@ -51,11 +50,12 @@ public class AddEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 saveArticle(savingType);
+
+                AddEditActivity.super.onBackPressed();
             }
         });
 
         if(action.equals(getString(R.string.edit_article))){
-//            Toast.makeText(this, "Eiting article", Toast.LENGTH_SHORT).show();
             new ReadArticleTask().execute(articleId);
         }
     }
@@ -123,6 +123,6 @@ public class AddEditActivity extends AppCompatActivity {
 
         new SaveArticleTask().execute(nameOfArticle, contentOfArticle, savingType);
 
-        Toast.makeText(getApplicationContext(), "Article saved", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), R.string.article_saved, Toast.LENGTH_SHORT).show();
     }
 }

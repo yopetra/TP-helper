@@ -5,4 +5,12 @@
     <string name="add_new_article">Add a new article</string>
     <string name="edit_article">Edit article</string>
     <string name="article_id">article_id</string>
+    <string name="do_you_want_to_delete">\"Do you want delete \"</string>
+    <string name="article">\" article?\"</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="article_deleted">Article deleted</string>
+    <string name="deleting_have_canceled">Deleting have canceled</string>
+    <string name="deleting_an_article">Deleting an article</string>
+    <string name="article_saved">Article saved</string>
 </resources>
