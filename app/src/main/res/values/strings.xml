@@ -29,4 +29,10 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="down_btn">down</string>
+    <string name="up_btn">up</string>
+    <string name="settings_pref">settings</string>
+    <string name="speed">speed</string>
+    <string name="size">size</string>
+    <string name="textColor">textColor</string>
 </resources>
