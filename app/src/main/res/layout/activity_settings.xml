@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".SettingsActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:fitsSystemWindows="true">
+
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_collapseMode="pin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Settings"
+                    android:textSize="@dimen/app_bar_text_size"/>
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp">
+
+            <!-- speed -->
+            <TextView
+                android:id="@+id/speedTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Speed"
+                android:textSize="@dimen/text_size_content_settings"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/minus_speed"
+                style="@style/settings_buttons"
+                android:text="-"
+                app:layout_constraintBaseline_toBaselineOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/guideline_right_buttons" />
+
+            <TextView
+                android:id="@+id/textView_speed"
+                android:layout_width="38dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="24dp"
+                android:gravity="center"
+                android:text="0"
+                android:textSize="@dimen/text_size_content_settings"
+                app:layout_constraintStart_toEndOf="@+id/minus_speed"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/plus_speed"
+                style="@style/settings_buttons"
+                android:layout_marginStart="21dp"
+                android:text="+"
+                app:layout_constraintStart_toEndOf="@+id/textView_speed"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- size -->
+            <TextView
+                android:id="@+id/sizeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="Size"
+                android:textSize="@dimen/text_size_content_settings"
+                app:layout_constraintStart_toStartOf="@+id/speedTextView"
+                app:layout_constraintTop_toBottomOf="@+id/speedTextView" />
+
+            <Button
+                android:id="@+id/minus_size"
+                style="@style/settings_buttons"
+                android:text="-"
+                app:layout_constraintStart_toEndOf="@+id/guideline_right_buttons"
+                app:layout_constraintTop_toTopOf="@+id/sizeTextView" />
+
+            <TextView
+                android:id="@+id/textView_size"
+                android:layout_width="38dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="24dp"
+                android:gravity="center"
+                android:text="0"
+                android:textSize="@dimen/text_size_content_settings"
+                app:layout_constraintStart_toEndOf="@id/minus_size"
+                app:layout_constraintTop_toTopOf="@+id/sizeTextView" />
+
+            <Button
+                android:id="@+id/plus_size"
+                style="@style/settings_buttons"
+                android:layout_marginStart="21dp"
+                android:text="+"
+                app:layout_constraintStart_toEndOf="@id/textView_size"
+                app:layout_constraintTop_toTopOf="@+id/sizeTextView" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_right_buttons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="216dp" />
+
+            <!-- text color -->
+            <TextView
+                android:id="@+id/textColorTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="Text color"
+                android:textSize="@dimen/text_size_content_settings"
+                app:layout_constraintStart_toStartOf="@+id/speedTextView"
+                app:layout_constraintTop_toBottomOf="@+id/sizeTextView" />
+
+            <Button
+                android:id="@+id/tc_first"
+                style="@style/settings_buttons"
+                android:background="@color/black"
+                app:layout_constraintStart_toEndOf="@+id/guideline_right_buttons"
+                app:layout_constraintTop_toTopOf="@+id/textColorTextView" />
+
+            <Button
+                android:id="@+id/tc_second"
+                style="@style/settings_buttons"
+                android:layout_marginStart="8dp"
+                android:background="@color/white_grey"
+                app:layout_constraintStart_toEndOf="@+id/tc_first"
+                app:layout_constraintTop_toTopOf="@+id/textColorTextView" />
+
+            <Button
+                android:id="@+id/tc_third"
+                style="@style/settings_buttons"
+                android:layout_marginStart="8dp"
+                android:background="@color/yellow"
+                app:layout_constraintStart_toEndOf="@+id/tc_second"
+                app:layout_constraintTop_toTopOf="@+id/textColorTextView" />
+
+            <Button
+                android:id="@+id/tc_forth"
+                style="@style/settings_buttons"
+                android:layout_marginStart="8dp"
+                android:background="@color/blue"
+                app:layout_constraintStart_toEndOf="@+id/tc_third"
+                app:layout_constraintTop_toTopOf="@+id/textColorTextView" />
+
+            <!-- background color -->
+            <TextView
+                android:id="@+id/backgroundColorTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="Text color"
+                android:textSize="@dimen/text_size_content_settings"
+                app:layout_constraintStart_toStartOf="@+id/speedTextView"
+                app:layout_constraintTop_toBottomOf="@+id/textColorTextView" />
+
+            <Button
+                android:id="@+id/bc_first"
+                style="@style/settings_buttons"
+                android:background="@color/black"
+                app:layout_constraintStart_toEndOf="@+id/guideline_right_buttons"
+                app:layout_constraintTop_toTopOf="@+id/backgroundColorTextView" />
+
+            <Button
+                android:id="@+id/bc_second"
+                style="@style/settings_buttons"
+                android:layout_marginStart="8dp"
+                android:background="@color/white_grey"
+                app:layout_constraintStart_toEndOf="@+id/bc_first"
+                app:layout_constraintTop_toTopOf="@+id/backgroundColorTextView" />
+
+            <Button
+                android:id="@+id/bc_third"
+                style="@style/settings_buttons"
+                android:layout_marginStart="8dp"
+                android:background="@color/yellow"
+                app:layout_constraintStart_toEndOf="@+id/bc_second"
+                app:layout_constraintTop_toTopOf="@+id/backgroundColorTextView" />
+
+            <Button
+                android:id="@+id/bc_forth"
+                style="@style/settings_buttons"
+                android:layout_marginStart="8dp"
+                android:background="@color/blue"
+                app:layout_constraintStart_toEndOf="@+id/bc_third"
+                app:layout_constraintTop_toTopOf="@+id/backgroundColorTextView" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

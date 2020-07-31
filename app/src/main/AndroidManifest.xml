@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ScrollingTextActivity"></activity>
+        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".ScrollingTextActivity" />
         <activity android:name=".AddEditActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

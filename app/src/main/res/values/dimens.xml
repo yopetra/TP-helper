@@ -5,4 +5,8 @@
     <dimen name="elevation_of_card">2dp</dimen>
     <dimen name="text_twenty">20sp</dimen>
     <dimen name="bt_scroll_activity">50dp</dimen>
+    <dimen name="app_bar_text_size">30sp</dimen>
+    <dimen name="text_size_content_settings">24sp</dimen>
+    <dimen name="settings_button_width">32dp</dimen>
+    <dimen name="settings_button_height">37dp</dimen>
 </resources>

@@ -34,7 +34,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Name of this activity"
-                    android:textSize="30sp"/>
+                    android:textSize="@dimen/app_bar_text_size"/>
 
             </androidx.appcompat.widget.Toolbar>
 

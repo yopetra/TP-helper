@@ -17,4 +17,9 @@
         <item name="android:elevation" tools:targetApi="lollipop">@dimen/elevation_of_card</item>
     </style>
 
+    <style name="settings_buttons">
+        <item name="android:layout_width">@dimen/settings_button_width</item>
+        <item name="android:layout_height">@dimen/settings_button_height</item>
+    </style>
+
 </resources>
