@@ -11,9 +11,13 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -37,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
     FloatingActionButton fab;
     ArticlesAdapter mAdapter;
     RecyclerView mRecyclerView;
+    ImageView settingsImageView;
     private AppDatabase mDb;
     private Paint p = new Paint();
     private List<Integer> idsOfArticles = new ArrayList<>();
@@ -60,6 +65,13 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
         });
 
         mRecyclerView = findViewById(R.id.rv_articles_list);
+        settingsImageView = findViewById(R.id.iv_settings);
+        settingsImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Settings", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(manager);
@@ -71,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
 
     @Override
     public void onClick(int finalId) {
-        Toast.makeText(this, "CLicked item" + finalId, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(MainActivity.this, ScrollingTextActivity.class);
         intent.putExtra(getString(R.string.article_id), finalId);
         startActivity(intent);
