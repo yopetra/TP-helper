@@ -63,7 +63,7 @@
 
                 <Button
                     android:id="@+id/minus_speed"
-                    style="@style/settings_buttons"
+                    style="@style/settings_buttons_numbers"
                     android:text="-"
                     app:layout_constraintBaseline_toBaselineOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/guideline_right_buttons" />
@@ -81,7 +81,7 @@
 
                 <Button
                     android:id="@+id/plus_speed"
-                    style="@style/settings_buttons"
+                    style="@style/settings_buttons_numbers"
                     android:layout_marginStart="21dp"
                     android:text="+"
                     app:layout_constraintStart_toEndOf="@+id/textView_speed"
@@ -100,7 +100,7 @@
 
                 <Button
                     android:id="@+id/minus_size"
-                    style="@style/settings_buttons"
+                    style="@style/settings_buttons_numbers"
                     android:text="-"
                     app:layout_constraintStart_toEndOf="@+id/guideline_right_buttons"
                     app:layout_constraintTop_toTopOf="@+id/sizeTextView" />
@@ -118,7 +118,7 @@
 
                 <Button
                     android:id="@+id/plus_size"
-                    style="@style/settings_buttons"
+                    style="@style/settings_buttons_numbers"
                     android:layout_marginStart="21dp"
                     android:text="+"
                     app:layout_constraintStart_toEndOf="@id/textView_size"
@@ -144,14 +144,14 @@
 
                 <Button
                     android:id="@+id/tc_first"
-                    style="@style/settings_buttons"
+                    style="@style/settings_buttons_colors"
                     android:background="@color/black"
                     app:layout_constraintStart_toEndOf="@+id/guideline_right_buttons"
                     app:layout_constraintTop_toTopOf="@+id/textColorTextView" />
 
                 <Button
                     android:id="@+id/tc_second"
-                    style="@style/settings_buttons"
+                    style="@style/settings_buttons_colors"
                     android:layout_marginStart="8dp"
                     android:background="@color/white_grey"
                     app:layout_constraintStart_toEndOf="@+id/tc_first"
@@ -159,7 +159,7 @@
 
                 <Button
                     android:id="@+id/tc_third"
-                    style="@style/settings_buttons"
+                    style="@style/settings_buttons_colors"
                     android:layout_marginStart="8dp"
                     android:background="@color/yellow"
                     app:layout_constraintStart_toEndOf="@+id/tc_second"
@@ -167,7 +167,7 @@
 
                 <Button
                     android:id="@+id/tc_forth"
-                    style="@style/settings_buttons"
+                    style="@style/settings_buttons_colors"
                     android:layout_marginStart="8dp"
                     android:background="@color/blue"
                     app:layout_constraintStart_toEndOf="@+id/tc_third"
@@ -179,21 +179,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
-                    android:text="Text color"
+                    android:text="Back color"
                     android:textSize="@dimen/text_size_content_settings"
                     app:layout_constraintStart_toStartOf="@+id/speedTextView"
                     app:layout_constraintTop_toBottomOf="@+id/textColorTextView" />
 
                 <Button
                     android:id="@+id/bc_first"
-                    style="@style/settings_buttons"
+                    style="@style/settings_buttons_colors"
                     android:background="@color/black"
                     app:layout_constraintStart_toEndOf="@+id/guideline_right_buttons"
                     app:layout_constraintTop_toTopOf="@+id/backgroundColorTextView" />
 
                 <Button
                     android:id="@+id/bc_second"
-                    style="@style/settings_buttons"
+                    style="@style/settings_buttons_colors"
                     android:layout_marginStart="8dp"
                     android:background="@color/white_grey"
                     app:layout_constraintStart_toEndOf="@+id/bc_first"
@@ -201,7 +201,7 @@
 
                 <Button
                     android:id="@+id/bc_third"
-                    style="@style/settings_buttons"
+                    style="@style/settings_buttons_colors"
                     android:layout_marginStart="8dp"
                     android:background="@color/yellow"
                     app:layout_constraintStart_toEndOf="@+id/bc_second"
@@ -209,7 +209,7 @@
 
                 <Button
                     android:id="@+id/bc_forth"
-                    style="@style/settings_buttons"
+                    style="@style/settings_buttons_colors"
                     android:layout_marginStart="8dp"
                     android:background="@color/blue"
                     app:layout_constraintStart_toEndOf="@+id/bc_third"

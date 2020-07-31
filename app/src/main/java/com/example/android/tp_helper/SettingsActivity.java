@@ -17,6 +17,7 @@ public class SettingsActivity extends AppCompatActivity {
     private int textSpeed;
     private int textSize;
     private int textColor;
+    private int backColor;
     private final int UP = 1;
     private final int DOWN = 2;
     private final int BLACK = 11;
@@ -33,11 +34,13 @@ public class SettingsActivity extends AppCompatActivity {
         textSpeed = sPref.getInt(getString(R.string.speed), 5);
         textSize = sPref.getInt(getString(R.string.size), 5);
         textColor = sPref.getInt(getString(R.string.textColor), BLACK);
+        backColor = sPref.getInt(getString(R.string.backColor), WHITE);
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_settings);
         mBinding.textViewSpeed.setText(String.valueOf(textSpeed));
         mBinding.textViewSize.setText(String.valueOf(textSize));
         setTextColor(textColor);
+        setBackColor(backColor);
 
         View.OnClickListener onClickListener = new View.OnClickListener(){
             @Override
@@ -71,6 +74,22 @@ public class SettingsActivity extends AppCompatActivity {
                         textColor = BLUE;
                         setTextColor(textColor);
                         break;
+                    case R.id.bc_first:
+                        backColor = BLACK;
+                        setBackColor(backColor);
+                        break;
+                    case R.id.bc_second:
+                        backColor = WHITE;
+                        setBackColor(backColor);
+                        break;
+                    case R.id.bc_third:
+                        backColor = YELLOW;
+                        setBackColor(backColor);
+                        break;
+                    case R.id.bc_forth:
+                        backColor = BLUE;
+                        setBackColor(backColor);
+                        break;
                 }
             }
         };
@@ -83,6 +102,31 @@ public class SettingsActivity extends AppCompatActivity {
         mBinding.tcSecond.setOnClickListener(onClickListener);
         mBinding.tcThird.setOnClickListener(onClickListener);
         mBinding.tcForth.setOnClickListener(onClickListener);
+        mBinding.bcFirst.setOnClickListener(onClickListener);
+        mBinding.bcSecond.setOnClickListener(onClickListener);
+        mBinding.bcThird.setOnClickListener(onClickListener);
+        mBinding.bcForth.setOnClickListener(onClickListener);
+    }
+
+    private void setBackColor(int backColor) {
+        mBinding.bcFirst.setText("");
+        mBinding.bcSecond.setText("");
+        mBinding.bcThird.setText("");
+        mBinding.bcForth.setText("");
+        switch(backColor){
+            case BLACK:
+                mBinding.bcFirst.setText("V");
+                break;
+            case WHITE:
+                mBinding.bcSecond.setText("V");
+                break;
+            case YELLOW:
+                mBinding.bcThird.setText("V");
+                break;
+            case BLUE:
+                mBinding.bcForth.setText("V");
+                break;
+        }
     }
 
     private void setTextColor(int textColor) {
@@ -145,6 +189,7 @@ public class SettingsActivity extends AppCompatActivity {
         editor.putInt(getString(R.string.speed), textSpeed);
         editor.putInt(getString(R.string.size), textSize);
         editor.putInt(getString(R.string.textColor), textColor);
+        editor.putInt(getString(R.string.backColor), backColor);
         editor.commit();
     }
 }
