@@ -36,4 +36,8 @@
     <string name="size">size</string>
     <string name="textColor">textColor</string>
     <string name="backColor">backColor</string>
+    <string name="speedTV">Speed</string>
+    <string name="sizeTV">Size</string>
+    <string name="text_colorTV">Text color</string>
+    <string name="back_colorTV">Back color</string>
 </resources>

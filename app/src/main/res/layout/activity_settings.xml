@@ -58,7 +58,7 @@
                     android:id="@+id/speedTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Speed"
+                    android:text="@string/speedTV"
                     style="@style/text_settings"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -95,7 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
-                    android:text="Size"
+                    android:text="@string/sizeTV"
                     style="@style/text_settings"
                     app:layout_constraintStart_toStartOf="@+id/speedTextView"
                     app:layout_constraintTop_toBottomOf="@+id/speedTextView" />
@@ -139,7 +139,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
-                    android:text="Text color"
+                    android:text="@string/text_colorTV"
                     style="@style/text_settings"
                     app:layout_constraintStart_toStartOf="@+id/speedTextView"
                     app:layout_constraintTop_toBottomOf="@+id/sizeTextView" />
@@ -180,7 +180,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
-                    android:text="Back color"
+                    android:text="@string/back_colorTV"
                     style="@style/text_settings"
                     app:layout_constraintStart_toStartOf="@+id/speedTextView"
                     app:layout_constraintTop_toBottomOf="@+id/textColorTextView" />
