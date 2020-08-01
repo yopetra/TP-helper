@@ -28,6 +28,9 @@ public class ScrollingTextActivity extends AppCompatActivity {
     private int textSpeed;
     private int textSpeedResult;
     private int speedCoeff = 40;
+    private int textSize;
+    private int initTextSize = 10; // text size in SP
+    private int textSizeResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +39,10 @@ public class ScrollingTextActivity extends AppCompatActivity {
 
         loadPreferences();
         textSpeedResult = speedCoeff / textSpeed;
+        textSizeResult = ((initTextSize * textSize) / 3) + 10; // magic where final text size have calculated
 
         vsTextView = findViewById(R.id.tvScrollingContent);
+        vsTextView.setTextSize(textSizeResult);
         mDb = AppDatabase.getInstance(this);
         final int[] currentY = new int[1];
 
@@ -84,6 +89,7 @@ public class ScrollingTextActivity extends AppCompatActivity {
     private void loadPreferences() {
         sPref = getSharedPreferences(getString(R.string.settings_pref), MODE_PRIVATE);
         textSpeed = sPref.getInt(getString(R.string.speed), 5);
+        textSize = sPref.getInt(getString(R.string.size), 5);
     }
 
     private String getArticleContentById(int articleId) {
