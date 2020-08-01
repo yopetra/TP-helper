@@ -1,9 +1,11 @@
 package com.example.android.tp_helper;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -42,6 +44,7 @@ public class ScrollingTextActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        System.out.println("-------- begin scrolling ----------");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling_text);
 
@@ -52,7 +55,9 @@ public class ScrollingTextActivity extends AppCompatActivity {
 
         vsTextView = findViewById(R.id.tvScrollingContent);
         vsTextView.setTextSize(textSizeResult);
-        vsTextView.setTextColor(textColorResult);
+//        vsTextView.setTextColor(Integer.parseInt(textColorResult));
+        vsTextView.setTextColor(ContextCompat.getColor(this, textColorResult));
+        System.out.println("color = " + Color.RED);
         mDb = AppDatabase.getInstance(this);
         final int[] currentY = new int[1];
 
@@ -110,7 +115,7 @@ public class ScrollingTextActivity extends AppCompatActivity {
                 return R.color.blue;
         }
 
-        return 0;
+        return R.color.black;
     }
 
     private void loadPreferences() {
