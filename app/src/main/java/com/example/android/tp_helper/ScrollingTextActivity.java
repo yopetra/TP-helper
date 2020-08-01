@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.example.android.tp_helper.data.AppDatabase;
 import com.example.android.tp_helper.data.ArticleEntry;
@@ -22,6 +23,7 @@ public class ScrollingTextActivity extends AppCompatActivity {
 
     private AppDatabase mDb;
     private VerticalScrollingTextView vsTextView;
+    private LinearLayout rootLinearLayout;
     ImageView playImageView;
     ImageView pauseImageView;
     ImageView beginImageView;
@@ -42,9 +44,11 @@ public class ScrollingTextActivity extends AppCompatActivity {
     private final int BLUE = 14;
     private int textColorResult;
 
+    private int backColor;
+    private int backColorResult;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("-------- begin scrolling ----------");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling_text);
 
@@ -52,12 +56,15 @@ public class ScrollingTextActivity extends AppCompatActivity {
         textSpeedResult = speedCoeff / textSpeed;
         textSizeResult = ((initTextSize * textSize) / 3) + 10; // magic where final text size have calculated
         textColorResult = convertColor(textColor);
+        backColorResult = convertColor(backColor);
 
         vsTextView = findViewById(R.id.tvScrollingContent);
         vsTextView.setTextSize(textSizeResult);
-//        vsTextView.setTextColor(Integer.parseInt(textColorResult));
         vsTextView.setTextColor(ContextCompat.getColor(this, textColorResult));
-        System.out.println("color = " + Color.RED);
+
+        rootLinearLayout = findViewById(R.id.ll_scrolling_root);
+        rootLinearLayout.setBackgroundColor((ContextCompat.getColor(this, backColorResult)));
+
         mDb = AppDatabase.getInstance(this);
         final int[] currentY = new int[1];
 
@@ -71,7 +78,7 @@ public class ScrollingTextActivity extends AppCompatActivity {
         String content = getArticleContentById(articleId);
         vsTextView.setText(content);
 
-        final VerticalScrollingTextView tvContent = (VerticalScrollingTextView) findViewById(R.id.tvScrollingContent);
+        final VerticalScrollingTextView tvContent = findViewById(R.id.tvScrollingContent);
         tvContent.setMovementMethod(new ScrollingMovementMethod());
         tvContent.setSpeed(textSpeedResult);
 
@@ -123,6 +130,7 @@ public class ScrollingTextActivity extends AppCompatActivity {
         textSpeed = sPref.getInt(getString(R.string.speed), 5);
         textSize = sPref.getInt(getString(R.string.size), 5);
         textColor = sPref.getInt(getString(R.string.textColor), BLACK);
+        backColor = sPref.getInt(getString(R.string.backColor), WHITE);
     }
 
     private String getArticleContentById(int articleId) {
