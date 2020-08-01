@@ -18,6 +18,7 @@ public class SettingsActivity extends AppCompatActivity {
     private int textSize;
     private int textColor;
     private int backColor;
+    private boolean isTextMirrored;
     private final int UP = 1;
     private final int DOWN = 2;
     private final int BLACK = 11;
@@ -35,12 +36,14 @@ public class SettingsActivity extends AppCompatActivity {
         textSize = sPref.getInt(getString(R.string.size), 5);
         textColor = sPref.getInt(getString(R.string.textColor), BLACK);
         backColor = sPref.getInt(getString(R.string.backColor), WHITE);
+        isTextMirrored = sPref.getBoolean(getString(R.string.is_text_mirrored), false);
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_settings);
         mBinding.textViewSpeed.setText(String.valueOf(textSpeed));
         mBinding.textViewSize.setText(String.valueOf(textSize));
         setTextColor(textColor);
         setBackColor(backColor);
+        mBinding.swMirrorText.setChecked(isTextMirrored);
 
         View.OnClickListener onClickListener = new View.OnClickListener(){
             @Override
@@ -90,6 +93,9 @@ public class SettingsActivity extends AppCompatActivity {
                         backColor = BLUE;
                         setBackColor(backColor);
                         break;
+                    case R.id.sw_mirror_text:
+                        isTextMirrored = mBinding.swMirrorText.isChecked();
+                        break;
                 }
             }
         };
@@ -106,6 +112,7 @@ public class SettingsActivity extends AppCompatActivity {
         mBinding.bcSecond.setOnClickListener(onClickListener);
         mBinding.bcThird.setOnClickListener(onClickListener);
         mBinding.bcForth.setOnClickListener(onClickListener);
+        mBinding.swMirrorText.setOnClickListener(onClickListener);
     }
 
     private void setBackColor(int backColor) {
@@ -190,6 +197,7 @@ public class SettingsActivity extends AppCompatActivity {
         editor.putInt(getString(R.string.size), textSize);
         editor.putInt(getString(R.string.textColor), textColor);
         editor.putInt(getString(R.string.backColor), backColor);
+        editor.putBoolean(getString(R.string.is_text_mirrored), isTextMirrored);
         editor.commit();
     }
 }

@@ -56,10 +56,10 @@
                 <!-- speed -->
                 <TextView
                     android:id="@+id/speedTextView"
+                    style="@style/text_settings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/speedTV"
-                    style="@style/text_settings"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -72,12 +72,12 @@
 
                 <TextView
                     android:id="@+id/textView_speed"
+                    style="@style/text_settings"
                     android:layout_width="38dp"
                     android:layout_height="0dp"
                     android:layout_marginStart="24dp"
                     android:gravity="center"
                     android:text="0"
-                    style="@style/text_settings"
                     app:layout_constraintStart_toEndOf="@+id/minus_speed"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -92,11 +92,11 @@
                 <!-- size -->
                 <TextView
                     android:id="@+id/sizeTextView"
+                    style="@style/text_settings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
                     android:text="@string/sizeTV"
-                    style="@style/text_settings"
                     app:layout_constraintStart_toStartOf="@+id/speedTextView"
                     app:layout_constraintTop_toBottomOf="@+id/speedTextView" />
 
@@ -109,12 +109,12 @@
 
                 <TextView
                     android:id="@+id/textView_size"
+                    style="@style/text_settings"
                     android:layout_width="38dp"
                     android:layout_height="0dp"
                     android:layout_marginStart="24dp"
                     android:gravity="center"
                     android:text="0"
-                    style="@style/text_settings"
                     app:layout_constraintStart_toEndOf="@id/minus_size"
                     app:layout_constraintTop_toTopOf="@+id/sizeTextView" />
 
@@ -136,19 +136,19 @@
                 <!-- text color -->
                 <TextView
                     android:id="@+id/textColorTextView"
+                    style="@style/text_settings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
                     android:text="@string/text_colorTV"
-                    style="@style/text_settings"
                     app:layout_constraintStart_toStartOf="@+id/speedTextView"
                     app:layout_constraintTop_toBottomOf="@+id/sizeTextView" />
 
                 <Button
                     android:id="@+id/tc_first"
                     style="@style/settings_buttons_colors"
-                    android:background="@color/black"
                     android:layout_marginStart="0dp"
+                    android:background="@color/black"
                     app:layout_constraintStart_toEndOf="@+id/guideline_right_buttons"
                     app:layout_constraintTop_toTopOf="@+id/textColorTextView" />
 
@@ -177,11 +177,11 @@
                 <!-- background color -->
                 <TextView
                     android:id="@+id/backgroundColorTextView"
+                    style="@style/text_settings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
                     android:text="@string/back_colorTV"
-                    style="@style/text_settings"
                     app:layout_constraintStart_toStartOf="@+id/speedTextView"
                     app:layout_constraintTop_toBottomOf="@+id/textColorTextView" />
 
@@ -213,6 +213,26 @@
                     android:background="@color/blue"
                     app:layout_constraintStart_toEndOf="@+id/bc_third"
                     app:layout_constraintTop_toTopOf="@+id/backgroundColorTextView" />
+
+                <!-- mirror text -->
+                <TextView
+                    android:id="@+id/tv_mirror_text"
+                    style="@style/text_settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:text="Mirror text"
+                    app:layout_constraintStart_toStartOf="@+id/backgroundColorTextView"
+                    app:layout_constraintTop_toBottomOf="@+id/backgroundColorTextView" />
+
+                <Switch
+                    android:id="@+id/sw_mirror_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginTop="40dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_mirror_text"
+                    app:layout_constraintTop_toBottomOf="@+id/bc_first" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

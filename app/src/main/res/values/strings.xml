@@ -40,4 +40,5 @@
     <string name="sizeTV">Size</string>
     <string name="text_colorTV">Text color</string>
     <string name="back_colorTV">Back color</string>
+    <string name="is_text_mirrored">isTextMirrored</string>
 </resources>

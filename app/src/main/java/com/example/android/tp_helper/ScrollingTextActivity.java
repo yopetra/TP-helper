@@ -47,6 +47,8 @@ public class ScrollingTextActivity extends AppCompatActivity {
     private int backColor;
     private int backColorResult;
 
+    private boolean isTextMirrored;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +63,7 @@ public class ScrollingTextActivity extends AppCompatActivity {
         vsTextView = findViewById(R.id.tvScrollingContent);
         vsTextView.setTextSize(textSizeResult);
         vsTextView.setTextColor(ContextCompat.getColor(this, textColorResult));
+        if(isTextMirrored){vsTextView.setScaleY(-1);}
 
         rootLinearLayout = findViewById(R.id.ll_scrolling_root);
         rootLinearLayout.setBackgroundColor((ContextCompat.getColor(this, backColorResult)));
@@ -131,6 +134,7 @@ public class ScrollingTextActivity extends AppCompatActivity {
         textSize = sPref.getInt(getString(R.string.size), 5);
         textColor = sPref.getInt(getString(R.string.textColor), BLACK);
         backColor = sPref.getInt(getString(R.string.backColor), WHITE);
+        isTextMirrored = sPref.getBoolean(getString(R.string.is_text_mirrored), false);
     }
 
     private String getArticleContentById(int articleId) {
