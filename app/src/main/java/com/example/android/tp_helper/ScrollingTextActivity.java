@@ -28,9 +28,17 @@ public class ScrollingTextActivity extends AppCompatActivity {
     private int textSpeed;
     private int textSpeedResult;
     private int speedCoeff = 40;
+
     private int textSize;
     private int initTextSize = 10; // text size in SP
     private int textSizeResult;
+
+    private int textColor;
+    private final int BLACK = 11;
+    private final int WHITE = 12;
+    private final int YELLOW = 13;
+    private final int BLUE = 14;
+    private int textColorResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +48,11 @@ public class ScrollingTextActivity extends AppCompatActivity {
         loadPreferences();
         textSpeedResult = speedCoeff / textSpeed;
         textSizeResult = ((initTextSize * textSize) / 3) + 10; // magic where final text size have calculated
+        textColorResult = convertColor(textColor);
 
         vsTextView = findViewById(R.id.tvScrollingContent);
         vsTextView.setTextSize(textSizeResult);
+        vsTextView.setTextColor(textColorResult);
         mDb = AppDatabase.getInstance(this);
         final int[] currentY = new int[1];
 
@@ -86,10 +96,28 @@ public class ScrollingTextActivity extends AppCompatActivity {
         });
     }
 
+    private int convertColor(int textColor) {
+        switch(textColor){
+            case BLACK:
+                return R.color.black;
+            case WHITE:
+                return R.color.white_grey;
+
+            case YELLOW:
+                return R.color.yellow;
+
+            case BLUE:
+                return R.color.blue;
+        }
+
+        return 0;
+    }
+
     private void loadPreferences() {
         sPref = getSharedPreferences(getString(R.string.settings_pref), MODE_PRIVATE);
         textSpeed = sPref.getInt(getString(R.string.speed), 5);
         textSize = sPref.getInt(getString(R.string.size), 5);
+        textColor = sPref.getInt(getString(R.string.textColor), BLACK);
     }
 
     private String getArticleContentById(int articleId) {
