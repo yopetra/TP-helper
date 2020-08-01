@@ -3,6 +3,7 @@ package com.example.android.tp_helper;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -23,10 +24,19 @@ public class ScrollingTextActivity extends AppCompatActivity {
     ImageView pauseImageView;
     ImageView beginImageView;
 
+    SharedPreferences sPref;
+    private int textSpeed;
+    private int textSpeedResult;
+    private int speedCoeff = 40;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling_text);
+
+        loadPreferences();
+        textSpeedResult = speedCoeff / textSpeed;
+
         vsTextView = findViewById(R.id.tvScrollingContent);
         mDb = AppDatabase.getInstance(this);
         final int[] currentY = new int[1];
@@ -43,12 +53,12 @@ public class ScrollingTextActivity extends AppCompatActivity {
 
         final VerticalScrollingTextView tvContent = (VerticalScrollingTextView) findViewById(R.id.tvScrollingContent);
         tvContent.setMovementMethod(new ScrollingMovementMethod());
-        tvContent.setSpeed(10);
+        tvContent.setSpeed(textSpeedResult);
 
         playImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tvContent.setSpeed(10);
+                tvContent.setSpeed(textSpeedResult);
                 tvContent.scrollFrom(currentY[0]);
             }
         });
@@ -65,10 +75,15 @@ public class ScrollingTextActivity extends AppCompatActivity {
         beginImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tvContent.setSpeed(10);
+                tvContent.setSpeed(textSpeedResult);
                 tvContent.scroll();
             }
         });
+    }
+
+    private void loadPreferences() {
+        sPref = getSharedPreferences(getString(R.string.settings_pref), MODE_PRIVATE);
+        textSpeed = sPref.getInt(getString(R.string.speed), 5);
     }
 
     private String getArticleContentById(int articleId) {
