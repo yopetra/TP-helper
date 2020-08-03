@@ -78,6 +78,4 @@ public class WidgetFactory implements RemoteViewsFactory {
     public void onDestroy() {
 
     }
-
-
 }

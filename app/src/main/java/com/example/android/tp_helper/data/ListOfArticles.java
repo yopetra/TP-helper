@@ -1,9 +1,5 @@
 package com.example.android.tp_helper.data;
 
-import android.content.Context;
-
-import com.example.android.tp_helper.WidgetFactory;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
