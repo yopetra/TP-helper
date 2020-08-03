@@ -47,6 +47,9 @@ public class WidgetFactory implements RemoteViewsFactory {
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
                 R.layout.widget_item);
         remoteViews.setTextViewText(R.id.tvItemText, data.get(position));
+        Intent clickIntent = new Intent();
+        clickIntent.putExtra(TPWidget.ITEM_POSITION, position);
+        remoteViews.setOnClickFillInIntent(R.id.tvItemText, clickIntent);
         return remoteViews;
     }
 
