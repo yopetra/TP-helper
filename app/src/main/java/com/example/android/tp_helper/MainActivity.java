@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.tp_helper.data.AppDatabase;
 import com.example.android.tp_helper.data.ArticleEntry;
+import com.example.android.tp_helper.data.ListOfArticles;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
     private Paint p = new Paint();
     private List<Integer> idsOfArticles = new ArrayList<>();
     AlertDialog.Builder alertBuilder;
+    private List<String> articlesNames = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
         mAdapter.clearData();
         mDb = AppDatabase.getInstance(getApplicationContext());
         loadArticlesData();
+//        ListOfArticles.setListOfArticles(articlesNames); // set names of article to widget
         super.onResume();
     }
 
@@ -129,10 +132,12 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
             if(articleEntries.size() > 0){
                 JSONArray jsonArray = new JSONArray();
                 int sizeOfList = articleEntries.size();
+                articlesNames.clear();
 
                 for(int i = 0; i < sizeOfList; i++){
                     int id = articleEntries.get(i).getId();
                     String name = articleEntries.get(i).getName();
+                    articlesNames.add(name); // Fill arrays of names for widget
                     String content = articleEntries.get(i).getContent();
                     JSONObject jsonObject= null;
                     try {
@@ -146,8 +151,11 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
 
                     jsonArray.put(jsonObject);
                 }
-
+                ListOfArticles.setListOfArticles(articlesNames); // set names of article to widget
                 mAdapter.setArticlesData(jsonArray);
+            }else{
+                articlesNames.clear(); // remove all from the widget list
+                ListOfArticles.setListOfArticles(articlesNames); // set names of article to widget
             }
         }
     }
