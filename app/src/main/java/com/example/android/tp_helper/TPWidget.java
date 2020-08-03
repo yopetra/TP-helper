@@ -6,8 +6,16 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.widget.RemoteViews;
 import android.widget.Toast;
+
+import com.example.android.tp_helper.data.AppDatabase;
+import com.example.android.tp_helper.data.ArticleEntry;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Implementation of App Widget functionality.
@@ -16,11 +24,14 @@ public class TPWidget extends AppWidgetProvider {
 
     final String ACTION_ON_CLICK = "com.example.android.tp_helper.itemonclick";
     final static String ITEM_POSITION = "item position";
+    private List<Integer> idsOfArticles = new ArrayList<>();
+    private AppDatabase mDb;
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
                          int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
+
         for (int i : appWidgetIds) {
             updateWidget(context, appWidgetManager, i);
         }
@@ -30,11 +41,82 @@ public class TPWidget extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         if(intent.getAction().equalsIgnoreCase(ACTION_ON_CLICK)){
+            mDb = AppDatabase.getInstance(context);
             int itemPos = intent.getIntExtra(ITEM_POSITION, -1);
             if(itemPos != -1){
                 Toast.makeText(context, "Clicked item = " + itemPos,
                 Toast.LENGTH_SHORT).show();
+
+                FetchAllArticlesTask fetchAllArticles = new FetchAllArticlesTask();
+                fetchAllArticles.execute();
+                try {
+                    fetchAllArticles.get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                int articleIdInDb = idsOfArticles.get(itemPos);
+
+                Intent scrollIntent = new Intent(context, ScrollingTextActivity.class);
+                scrollIntent.putExtra("article_id", articleIdInDb);
+                scrollIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(scrollIntent);
             }
+        }
+    }
+
+    private class FetchAllArticlesTask extends AsyncTask<Void, Void, List<Integer>> {
+        @Override
+        protected List<Integer> doInBackground(Void... voids) {
+
+//            final JSONArray[] articleJsonData = null;
+            final List<ArticleEntry> articleEntries = mDb.articleDao().loadAllArticles();
+
+            // Fill ids if articles to list
+            idsOfArticles.clear();
+            int arrSize = articleEntries.size();
+
+            for(int i = 0; i < arrSize; i++){
+                int id = articleEntries.get(i).getId();
+                idsOfArticles.add(id);
+            }
+
+            return idsOfArticles;
+        }
+
+        @Override
+        protected void onPostExecute(List<Integer> articleEntries) {
+            super.onPostExecute(articleEntries);
+//            if(articleEntries.size() > 0){
+//                JSONArray jsonArray = new JSONArray();
+//                int sizeOfList = articleEntries.size();
+//                articlesNames.clear();
+//
+//                for(int i = 0; i < sizeOfList; i++){
+//                    int id = articleEntries.get(i).getId();
+//                    String name = articleEntries.get(i).getName();
+//                    articlesNames.add(name); // Fill arrays of names for widget
+//                    String content = articleEntries.get(i).getContent();
+//                    JSONObject jsonObject= null;
+//                    try {
+//                        jsonObject = new JSONObject()
+//                                .put("id", id)
+//                                .put("name", name)
+//                                .put("content", content);
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    jsonArray.put(jsonObject);
+//                }
+//                ListOfArticles.setListOfArticles(articlesNames); // set names of article to widget
+//                mAdapter.setArticlesData(jsonArray);
+//            }else{
+//                articlesNames.clear(); // remove all from the widget list
+//                ListOfArticles.setListOfArticles(articlesNames); // set names of article to widget
+//            }
         }
     }
 
