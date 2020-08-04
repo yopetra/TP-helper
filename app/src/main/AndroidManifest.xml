@@ -26,7 +26,6 @@
         </receiver>
 
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".ScrollingTextActivity" />
         <activity android:name=".AddEditActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

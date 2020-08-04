@@ -24,6 +24,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.android.tp_helper.data.AppDatabase;
 import com.example.android.tp_helper.data.ArticleEntry;
 import com.example.android.tp_helper.data.ListOfArticles;
+//import com.example.android.tp_helper.free.ScrollingActivity;
+import com.example.android.tp_helper.A.ScrollingActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -81,9 +83,11 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
         enableSwipe();
     }
 
+
     @Override
     public void onClick(int finalId) {
-        Intent intent = new Intent(MainActivity.this, ScrollingTextActivity.class);
+        Intent intent = new Intent(MainActivity.this, ScrollingActivity.class);
+
         intent.putExtra(getString(R.string.article_id), finalId);
         startActivity(intent);
     }

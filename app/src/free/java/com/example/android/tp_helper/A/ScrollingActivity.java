@@ -1,4 +1,7 @@
-package com.example.android.tp_helper;
+package com.example.android.tp_helper.A;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,17 +12,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
+import com.example.android.tp_helper.R;
 import com.example.android.tp_helper.data.AppDatabase;
 import com.example.android.tp_helper.data.ArticleEntry;
 import com.example.android.tp_helper.utils.VerticalScrollingTextView;
 
 import java.util.concurrent.ExecutionException;
 
-public class ScrollingTextActivity extends AppCompatActivity {
-
+public class ScrollingActivity extends AppCompatActivity {
     private AppDatabase mDb;
     private VerticalScrollingTextView vsTextView;
     private LinearLayout rootLinearLayout;
@@ -51,7 +51,7 @@ public class ScrollingTextActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scrolling_text);
+        setContentView(R.layout.activity_scrolling);
 
         loadPreferences();
         textSpeedResult = speedCoeff / textSpeed;

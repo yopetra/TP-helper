@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.RemoteViews;
 
+import com.example.android.tp_helper.A.ScrollingActivity;
 import com.example.android.tp_helper.data.AppDatabase;
 import com.example.android.tp_helper.data.ArticleEntry;
 
@@ -57,7 +58,8 @@ public class TPWidget extends AppWidgetProvider {
 
                 int articleIdInDb = idsOfArticles.get(itemPos);
 
-                Intent scrollIntent = new Intent(context, ScrollingTextActivity.class);
+                Intent scrollIntent = new Intent(context, ScrollingActivity.class);
+
                 scrollIntent.putExtra(context.getString(R.string.article_id), articleIdInDb);
                 scrollIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(scrollIntent);
