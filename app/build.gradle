@@ -32,7 +32,7 @@ android {
         }
     }
 
-    dataBinding.enabled = true
+    android.buildFeatures.dataBinding = true
 }
 
 dependencies {
@@ -44,6 +44,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    freeImplementation 'com.google.android.gms:play-services-ads:11.8.0'
+    implementation 'com.google.api-client:google-api-client:1.23.0'
+    implementation 'com.google.http-client:google-http-client-android:1.23.0'
+    implementation 'com.google.code.findbugs:jsr305:3.0.1'
 
     implementation "android.arch.persistence.room:runtime:1.1.1"
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"

@@ -16,6 +16,8 @@ import com.example.android.tp_helper.R;
 import com.example.android.tp_helper.data.AppDatabase;
 import com.example.android.tp_helper.data.ArticleEntry;
 import com.example.android.tp_helper.utils.VerticalScrollingTextView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.concurrent.ExecutionException;
 
@@ -52,6 +54,13 @@ public class ScrollingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
+
+        AdView mAdView = findViewById(R.id.adView);
+
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        mAdView.loadAd(adRequest);
 
         loadPreferences();
         textSpeedResult = speedCoeff / textSpeed;
