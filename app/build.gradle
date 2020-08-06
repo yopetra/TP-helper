@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            storeFile file('capstone-1.jks')
+            storePassword 'Umbrella796'
+            keyAlias 'capstone-key'
+            keyPassword 'Umbrella001'
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "30.0.0"
 
@@ -19,6 +27,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
 
