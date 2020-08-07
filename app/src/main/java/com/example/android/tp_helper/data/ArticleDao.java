@@ -1,5 +1,6 @@
 package com.example.android.tp_helper.data;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -13,7 +14,7 @@ import java.util.List;
 public interface ArticleDao {
 
     @Query("SELECT * FROM article")
-    List<ArticleEntry> loadAllArticles();
+    LiveData<List<ArticleEntry>> loadAllArticles();
 
     @Query("SELECT * FROM article WHERE id =:id")
     ArticleEntry readArticleById(int id);

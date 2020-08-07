@@ -9,6 +9,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.RemoteViews;
 
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+
 import com.example.android.tp_helper.A.ScrollingActivity;
 import com.example.android.tp_helper.data.AppDatabase;
 import com.example.android.tp_helper.data.ArticleEntry;
@@ -38,58 +42,76 @@ public class TPWidget extends AppWidgetProvider {
     }
 
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(final Context context, Intent intent) {
         super.onReceive(context, intent);
         if(intent.getAction().equalsIgnoreCase(ACTION_ON_CLICK)){
             mDb = AppDatabase.getInstance(context);
-            int itemPos = intent.getIntExtra(ITEM_POSITION, -1);
+            final int itemPos = intent.getIntExtra(ITEM_POSITION, -1);
             if(itemPos != -1){
                 
                 // Getting an ID of the article which saved in DB
-                FetchAllArticlesTask fetchAllArticles = new FetchAllArticlesTask();
-                fetchAllArticles.execute();
-                try {
-                    fetchAllArticles.get();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//                FetchAllArticlesTask fetchAllArticles = new FetchAllArticlesTask();
+//                fetchAllArticles.execute();
 
-                int articleIdInDb = idsOfArticles.get(itemPos);
+                final LiveData<List<ArticleEntry>> task = mDb.articleDao().loadAllArticles();
+                task.observe((LifecycleOwner) this, new Observer<List<ArticleEntry>>() {
+                    @Override
+                    public void onChanged(List<ArticleEntry> articleEntries) {
+                        // Fill ids if articles to list
+                        idsOfArticles.clear();
+                        int arrSize = articleEntries.size();
 
-                Intent scrollIntent = new Intent(context, ScrollingActivity.class);
+                        for(int i = 0; i < arrSize; i++){
+                            int id = articleEntries.get(i).getId();
+                            idsOfArticles.add(id);
+                        }
 
-                scrollIntent.putExtra(context.getString(R.string.article_id), articleIdInDb);
-                scrollIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(scrollIntent);
+//                        try {
+//                            fetchAllArticles.get();
+//                        } catch (ExecutionException e) {
+//                            e.printStackTrace();
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+
+                        int articleIdInDb = idsOfArticles.get(itemPos);
+
+                        Intent scrollIntent = new Intent(context, ScrollingActivity.class);
+
+                        scrollIntent.putExtra(context.getString(R.string.article_id), articleIdInDb);
+                        scrollIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(scrollIntent);
+                    }
+                });
+
+
             }
         }
     }
 
-    private class FetchAllArticlesTask extends AsyncTask<Void, Void, List<Integer>> {
-        @Override
-        protected List<Integer> doInBackground(Void... voids) {
-
-            final List<ArticleEntry> articleEntries = mDb.articleDao().loadAllArticles();
-
-            // Fill ids if articles to list
-            idsOfArticles.clear();
-            int arrSize = articleEntries.size();
-
-            for(int i = 0; i < arrSize; i++){
-                int id = articleEntries.get(i).getId();
-                idsOfArticles.add(id);
-            }
-
-            return idsOfArticles;
-        }
-
-        @Override
-        protected void onPostExecute(List<Integer> articleEntries) {
-            super.onPostExecute(articleEntries);
-        }
-    }
+//    private class FetchAllArticlesTask extends AsyncTask<Void, Void, List<Integer>> {
+//        @Override
+//        protected List<Integer> doInBackground(Void... voids) {
+//
+//            final List<ArticleEntry> articleEntries = mDb.articleDao().loadAllArticles();
+//
+//            // Fill ids if articles to list
+//            idsOfArticles.clear();
+//            int arrSize = articleEntries.size();
+//
+//            for(int i = 0; i < arrSize; i++){
+//                int id = articleEntries.get(i).getId();
+//                idsOfArticles.add(id);
+//            }
+//
+//            return idsOfArticles;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(List<Integer> articleEntries) {
+//            super.onPostExecute(articleEntries);
+//        }
+//    }
 
     void updateWidget(Context context, AppWidgetManager appWidgetManager,
                       int appWidgetId) {

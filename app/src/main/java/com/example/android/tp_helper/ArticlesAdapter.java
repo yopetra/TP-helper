@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.tp_helper.data.AppDatabase;
@@ -24,6 +27,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
 
     private JSONArray mArticlesData = new JSONArray();
     private AppDatabase mDb;
+    private Context mContext;
 
     private final ArticleAdapterOnClickHandler mClickHandler;
 
@@ -35,6 +39,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
     public ArticlesAdapter(ArticleAdapterOnClickHandler clickHandler, Context context){
         mClickHandler = clickHandler;
         mDb = AppDatabase.getInstance(context);
+        mContext = context;
     }
 
     @NonNull
@@ -139,37 +144,45 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
         }
     }
 
-    private class FetchAllArticlesTask extends AsyncTask<Void, Void, List<ArticleEntry>> {
-        @Override
-        protected List<ArticleEntry> doInBackground(Void... voids) {
-            final List<ArticleEntry> articleEntries = mDb.articleDao().loadAllArticles();
+//    private class FetchAllArticlesTask extends AsyncTask<Void, Void, List<ArticleEntry>> {
+//        @Override
+//        protected List<ArticleEntry> doInBackground(Void... voids) {
+//            final List<ArticleEntry> articleEntries = mDb.articleDao().loadAllArticles();
+//
+//            return articleEntries;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(List<ArticleEntry> articleEntries) {
+//            super.onPostExecute(articleEntries);
+//        }
+//    }
 
-            return articleEntries;
-        }
-
-        @Override
-        protected void onPostExecute(List<ArticleEntry> articleEntries) {
-            super.onPostExecute(articleEntries);
-        }
-    }
-
-    public void removeItem(int position) {
+    public void removeItem(final int position) {
         new RemoveArticleTask().execute(position);
         notifyItemRemoved(position);
 
         // Fetch all articles to get its size in the list
-        FetchAllArticlesTask fetchAllArticlesTask = new FetchAllArticlesTask();
-        fetchAllArticlesTask.execute();
+//        FetchAllArticlesTask fetchAllArticlesTask = new FetchAllArticlesTask();
+//        fetchAllArticlesTask.execute();
 
-        List<ArticleEntry> list = null;
-        try {
-            list = fetchAllArticlesTask.get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        notifyItemRangeChanged(position, list.size());
-        notifyDataSetChanged();
+        final LiveData<List<ArticleEntry>> task = mDb.articleDao().loadAllArticles();
+        task.observe((LifecycleOwner) mContext, new Observer<List<ArticleEntry>>() {
+            @Override
+            public void onChanged(List<ArticleEntry> articleEntries) {
+                List<ArticleEntry> list = null;
+//                try {
+                    list = articleEntries;//fetchAllArticlesTask.get();
+//                } catch (ExecutionException e) {
+//                    e.printStackTrace();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+                notifyItemRangeChanged(position, list.size());
+                notifyDataSetChanged();
+            }
+        });
+
+
     }
 }

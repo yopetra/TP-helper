@@ -11,21 +11,24 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.android.tp_helper.A.ScrollingActivity;
 import com.example.android.tp_helper.data.AppDatabase;
 import com.example.android.tp_helper.data.ArticleEntry;
 import com.example.android.tp_helper.data.ListOfArticles;
-//import com.example.android.tp_helper.free.ScrollingActivity;
-import com.example.android.tp_helper.A.ScrollingActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -50,8 +53,13 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        System.out.println("--- onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if(savedInstanceState != null){
+            System.out.println("--- if savedInstanceState");
+        }
 
         alertBuilder = new AlertDialog.Builder(this);
 
@@ -81,6 +89,9 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
         mRecyclerView.setAdapter(mAdapter);
 
         enableSwipe();
+        mAdapter.clearData();
+        mDb = AppDatabase.getInstance(getApplicationContext());
+        loadArticlesData();
     }
 
 
@@ -102,62 +113,69 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
 
     @Override
     protected void onResume() {
-        mAdapter.clearData();
-        mDb = AppDatabase.getInstance(getApplicationContext());
-        loadArticlesData();
+        System.out.println("--- onResume");
+//        mAdapter.clearData();
+//        mDb = AppDatabase.getInstance(getApplicationContext());
+//        loadArticlesData();
         super.onResume();
     }
 
-    private class FetchAllArticlesTask extends AsyncTask<Void, Void, List<ArticleEntry>> {
-        @Override
-        protected List<ArticleEntry> doInBackground(Void... voids) {
-            mDb = AppDatabase.getInstance(getApplicationContext());
-            final List<ArticleEntry> articleEntries = mDb.articleDao().loadAllArticles();
-
-            // Fill ids if articles to list
-            idsOfArticles.clear();
-            int arrSize = articleEntries.size();
-
-            for(int i = 0; i < arrSize; i++){
-                int id = articleEntries.get(i).getId();
-                idsOfArticles.add(id);
-            }
-
-            return articleEntries;
-        }
-
-        @Override
-        protected void onPostExecute(List<ArticleEntry> articleEntries) {
-            if(articleEntries.size() > 0){
-                JSONArray jsonArray = new JSONArray();
-                int sizeOfList = articleEntries.size();
-                articlesNames.clear();
-
-                for(int i = 0; i < sizeOfList; i++){
-                    int id = articleEntries.get(i).getId();
-                    String name = articleEntries.get(i).getName();
-                    articlesNames.add(name); // Fill arrays of names for widget
-                    String content = articleEntries.get(i).getContent();
-                    JSONObject jsonObject= null;
-                    try {
-                        jsonObject = new JSONObject()
-                                .put("id", id)
-                                .put("name", name)
-                                .put("content", content);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    jsonArray.put(jsonObject);
-                }
-                ListOfArticles.setListOfArticles(articlesNames); // set names of article to widget
-                mAdapter.setArticlesData(jsonArray);
-            }else{
-                articlesNames.clear(); // remove all from the widget list
-                ListOfArticles.setListOfArticles(articlesNames); // set names of article to widget
-            }
-        }
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
+        System.out.println("--- onSaveInstanceState");
+        super.onSaveInstanceState(outState, outPersistentState);
     }
+
+//    private class FetchAllArticlesTask extends AsyncTask<Void, Void, List<ArticleEntry>> {
+//        @Override
+//        protected List<ArticleEntry> doInBackground(Void... voids) {
+//            mDb = AppDatabase.getInstance(getApplicationContext());
+//            final LiveData<List<ArticleEntry>> articleEntries = mDb.articleDao().loadAllArticles();
+//
+//            // Fill ids if articles to list
+//            idsOfArticles.clear();
+//            int arrSize = articleEntries.size();
+//
+//            for(int i = 0; i < arrSize; i++){
+//                int id = articleEntries.get(i).getId();
+//                idsOfArticles.add(id);
+//            }
+//
+//            return articleEntries;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(List<ArticleEntry> articleEntries) {
+//            if(articleEntries.size() > 0){
+//                JSONArray jsonArray = new JSONArray();
+//                int sizeOfList = articleEntries.size();
+//                articlesNames.clear();
+//
+//                for(int i = 0; i < sizeOfList; i++){
+//                    int id = articleEntries.get(i).getId();
+//                    String name = articleEntries.get(i).getName();
+//                    articlesNames.add(name); // Fill arrays of names for widget
+//                    String content = articleEntries.get(i).getContent();
+//                    JSONObject jsonObject= null;
+//                    try {
+//                        jsonObject = new JSONObject()
+//                                .put("id", id)
+//                                .put("name", name)
+//                                .put("content", content);
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    jsonArray.put(jsonObject);
+//                }
+//                ListOfArticles.setListOfArticles(articlesNames); // set names of article to widget
+//                mAdapter.setArticlesData(jsonArray);
+//            }else{
+//                articlesNames.clear(); // remove all from the widget list
+//                ListOfArticles.setListOfArticles(articlesNames); // set names of article to widget
+//            }
+//        }
+//    }
 
     private class ReadArticleTask extends AsyncTask<Integer, Void, ArticleEntry>{
         @Override
@@ -284,6 +302,53 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
     }
 
     private void loadArticlesData(){
-        new FetchAllArticlesTask().execute();
+        mDb = AppDatabase.getInstance(getApplicationContext());
+        final LiveData<List<ArticleEntry>> task = mDb.articleDao().loadAllArticles();
+        task.observe(this, new Observer<List<ArticleEntry>>() {
+            @Override
+            public void onChanged(List<ArticleEntry> articleEntries) {
+                // Fill ids if articles to list
+                idsOfArticles.clear();
+                int arrSize = articleEntries.size();
+
+                for(int i = 0; i < arrSize; i++){
+                    int id = articleEntries.get(i).getId();
+                    idsOfArticles.add(id);
+                }
+
+                if(articleEntries.size() > 0){
+                    JSONArray jsonArray = new JSONArray();
+                    int sizeOfList = articleEntries.size();
+                    articlesNames.clear();
+
+                    for(int i = 0; i < sizeOfList; i++){
+                        int id = articleEntries.get(i).getId();
+                        String name = articleEntries.get(i).getName();
+                        articlesNames.add(name); // Fill arrays of names for widget
+                        String content = articleEntries.get(i).getContent();
+                        JSONObject jsonObject= null;
+                        try {
+                            jsonObject = new JSONObject()
+                                    .put("id", id)
+                                    .put("name", name)
+                                    .put("content", content);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        jsonArray.put(jsonObject);
+                    }
+                    ListOfArticles.setListOfArticles(articlesNames); // set names of article to widget
+                    mAdapter.setArticlesData(jsonArray);
+                }else{
+                    articlesNames.clear(); // remove all from the widget list
+                    ListOfArticles.setListOfArticles(articlesNames); // set names of article to widget
+                }
+            }
+        });
+
+
+
+//        new FetchAllArticlesTask().execute();
     }
 }
