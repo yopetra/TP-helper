@@ -49,9 +49,13 @@ public class AddEditActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveArticle(savingType);
-
-                AddEditActivity.super.onBackPressed();
+                if(nameOfArticleEditText.getText().toString().length() > 0 &&
+                contentOfArticleEditText.getText().toString().length() > 0){
+                    saveArticle(savingType);
+                    AddEditActivity.super.onBackPressed();
+                }else{
+                    Toast.makeText(getApplicationContext(), "Name and content should not be blank.", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
