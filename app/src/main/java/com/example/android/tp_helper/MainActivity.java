@@ -53,13 +53,8 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("--- onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        if(savedInstanceState != null){
-            System.out.println("--- if savedInstanceState");
-        }
 
         alertBuilder = new AlertDialog.Builder(this);
 
@@ -94,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
         loadArticlesData();
     }
 
-
     @Override
     public void onClick(int finalId) {
         Intent intent = new Intent(MainActivity.this, ScrollingActivity.class);
@@ -112,70 +106,10 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
     }
 
     @Override
-    protected void onResume() {
-        System.out.println("--- onResume");
-//        mAdapter.clearData();
-//        mDb = AppDatabase.getInstance(getApplicationContext());
-//        loadArticlesData();
-        super.onResume();
-    }
-
-    @Override
     public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
         System.out.println("--- onSaveInstanceState");
         super.onSaveInstanceState(outState, outPersistentState);
     }
-
-//    private class FetchAllArticlesTask extends AsyncTask<Void, Void, List<ArticleEntry>> {
-//        @Override
-//        protected List<ArticleEntry> doInBackground(Void... voids) {
-//            mDb = AppDatabase.getInstance(getApplicationContext());
-//            final LiveData<List<ArticleEntry>> articleEntries = mDb.articleDao().loadAllArticles();
-//
-//            // Fill ids if articles to list
-//            idsOfArticles.clear();
-//            int arrSize = articleEntries.size();
-//
-//            for(int i = 0; i < arrSize; i++){
-//                int id = articleEntries.get(i).getId();
-//                idsOfArticles.add(id);
-//            }
-//
-//            return articleEntries;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(List<ArticleEntry> articleEntries) {
-//            if(articleEntries.size() > 0){
-//                JSONArray jsonArray = new JSONArray();
-//                int sizeOfList = articleEntries.size();
-//                articlesNames.clear();
-//
-//                for(int i = 0; i < sizeOfList; i++){
-//                    int id = articleEntries.get(i).getId();
-//                    String name = articleEntries.get(i).getName();
-//                    articlesNames.add(name); // Fill arrays of names for widget
-//                    String content = articleEntries.get(i).getContent();
-//                    JSONObject jsonObject= null;
-//                    try {
-//                        jsonObject = new JSONObject()
-//                                .put("id", id)
-//                                .put("name", name)
-//                                .put("content", content);
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    jsonArray.put(jsonObject);
-//                }
-//                ListOfArticles.setListOfArticles(articlesNames); // set names of article to widget
-//                mAdapter.setArticlesData(jsonArray);
-//            }else{
-//                articlesNames.clear(); // remove all from the widget list
-//                ListOfArticles.setListOfArticles(articlesNames); // set names of article to widget
-//            }
-//        }
-//    }
 
     private class ReadArticleTask extends AsyncTask<Integer, Void, ArticleEntry>{
         @Override
@@ -205,8 +139,6 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 return false;
             }
-
-
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
@@ -339,6 +271,7 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
                         jsonArray.put(jsonObject);
                     }
                     ListOfArticles.setListOfArticles(articlesNames); // set names of article to widget
+                    mAdapter.clearData();
                     mAdapter.setArticlesData(jsonArray);
                 }else{
                     articlesNames.clear(); // remove all from the widget list
@@ -346,9 +279,5 @@ public class MainActivity extends AppCompatActivity implements ArticlesAdapter.A
                 }
             }
         });
-
-
-
-//        new FetchAllArticlesTask().execute();
     }
 }

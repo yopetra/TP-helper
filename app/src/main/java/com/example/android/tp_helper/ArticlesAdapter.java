@@ -21,7 +21,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ArticleViewHolder> {
 
@@ -144,45 +143,20 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
         }
     }
 
-//    private class FetchAllArticlesTask extends AsyncTask<Void, Void, List<ArticleEntry>> {
-//        @Override
-//        protected List<ArticleEntry> doInBackground(Void... voids) {
-//            final List<ArticleEntry> articleEntries = mDb.articleDao().loadAllArticles();
-//
-//            return articleEntries;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(List<ArticleEntry> articleEntries) {
-//            super.onPostExecute(articleEntries);
-//        }
-//    }
-
     public void removeItem(final int position) {
         new RemoveArticleTask().execute(position);
         notifyItemRemoved(position);
 
         // Fetch all articles to get its size in the list
-//        FetchAllArticlesTask fetchAllArticlesTask = new FetchAllArticlesTask();
-//        fetchAllArticlesTask.execute();
-
         final LiveData<List<ArticleEntry>> task = mDb.articleDao().loadAllArticles();
         task.observe((LifecycleOwner) mContext, new Observer<List<ArticleEntry>>() {
             @Override
             public void onChanged(List<ArticleEntry> articleEntries) {
                 List<ArticleEntry> list = null;
-//                try {
-                    list = articleEntries;//fetchAllArticlesTask.get();
-//                } catch (ExecutionException e) {
-//                    e.printStackTrace();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
+                    list = articleEntries;
                 notifyItemRangeChanged(position, list.size());
                 notifyDataSetChanged();
             }
         });
-
-
     }
 }

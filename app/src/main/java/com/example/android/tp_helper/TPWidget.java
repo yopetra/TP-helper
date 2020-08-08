@@ -6,7 +6,6 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.widget.RemoteViews;
 
 import androidx.lifecycle.LifecycleOwner;
@@ -19,7 +18,6 @@ import com.example.android.tp_helper.data.ArticleEntry;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Implementation of App Widget functionality.
@@ -50,9 +48,6 @@ public class TPWidget extends AppWidgetProvider {
             if(itemPos != -1){
                 
                 // Getting an ID of the article which saved in DB
-//                FetchAllArticlesTask fetchAllArticles = new FetchAllArticlesTask();
-//                fetchAllArticles.execute();
-
                 final LiveData<List<ArticleEntry>> task = mDb.articleDao().loadAllArticles();
                 task.observe((LifecycleOwner) this, new Observer<List<ArticleEntry>>() {
                     @Override
@@ -65,14 +60,6 @@ public class TPWidget extends AppWidgetProvider {
                             int id = articleEntries.get(i).getId();
                             idsOfArticles.add(id);
                         }
-
-//                        try {
-//                            fetchAllArticles.get();
-//                        } catch (ExecutionException e) {
-//                            e.printStackTrace();
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
 
                         int articleIdInDb = idsOfArticles.get(itemPos);
 
@@ -88,30 +75,6 @@ public class TPWidget extends AppWidgetProvider {
             }
         }
     }
-
-//    private class FetchAllArticlesTask extends AsyncTask<Void, Void, List<Integer>> {
-//        @Override
-//        protected List<Integer> doInBackground(Void... voids) {
-//
-//            final List<ArticleEntry> articleEntries = mDb.articleDao().loadAllArticles();
-//
-//            // Fill ids if articles to list
-//            idsOfArticles.clear();
-//            int arrSize = articleEntries.size();
-//
-//            for(int i = 0; i < arrSize; i++){
-//                int id = articleEntries.get(i).getId();
-//                idsOfArticles.add(id);
-//            }
-//
-//            return idsOfArticles;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(List<Integer> articleEntries) {
-//            super.onPostExecute(articleEntries);
-//        }
-//    }
 
     void updateWidget(Context context, AppWidgetManager appWidgetManager,
                       int appWidgetId) {
