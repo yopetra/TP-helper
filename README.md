@@ -13,3 +13,11 @@ App has such functionality as:
 
 Used custom items swipe, when delete an item from the list. I thought that this functionality is a standard thing, but I was wrong. To implement such functionality I've found some example of the come, which I've implemented in the project.
 Scrolling text were not a standard functionality too. To implement it I've used library which I modified to realise all functionality that I needed.
+
+![alt text](https://github.com/yopetra/TP-helper/blob/master/01.jpg)
+
+![alt text](https://github.com/yopetra/TP-helper/blob/master/02.jpg)
+
+![alt text](https://github.com/yopetra/TP-helper/blob/master/03.jpg)
+
+![alt text](https://github.com/yopetra/TP-helper/blob/master/04.jpg)
